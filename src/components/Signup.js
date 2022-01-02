@@ -24,7 +24,6 @@ export const Signup = () => {
     //   .required("Confirm password is required"),
   });
 
-  const airtableFields = [];
   return (
     <Formik
       initialValues={{
@@ -34,18 +33,12 @@ export const Signup = () => {
       validationSchema={validate}
       onSubmit={(values) => {
         console.log(values);
-        airtableFields.push({ fields: values });
-        console.log(airtableFields);
-
-        base("Website Submissions").create(
-          airtableFields,
-          function (err, records) {
-            if (err) {
-              console.error(err);
-              return;
-            }
+        base("Website Submissions").create(values, function (err, records) {
+          if (err) {
+            console.error(err);
+            return;
           }
-        );
+        });
       }}
     >
       {(formik) => (
